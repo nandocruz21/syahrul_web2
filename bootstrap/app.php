@@ -17,6 +17,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'produk', 
             'produk/*',
         ]);
+
+        // Tambahkan pendaftaran alias middleware role di sini
+        $middleware->alias([
+            'role' => \App\Http\Middleware\CheckRole::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
