@@ -9,28 +9,34 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        // Validasi input
         $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
+        // Cek kecocokan data
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
-            $token = $user->createToken('API-TOKEN')->plainTextToken; [cite: 175]
 
+            // Generate token 
+            $token = $user->createToken('API-TOKEN')->plainTextToken;
+
+            // Respon sukses [cite: 57, 58, 59]
             return response()->json([
-                'success' => true, [cite: 57]
-                'message' => 'Login berhasil', [cite: 58]
-                'data' => [ [cite: 59]
+                'success' => true,
+                'message' => 'Login berhasil',
+                'data' => [
                     'user' => $user,
                     'token' => $token
                 ]
             ], 200);
         }
 
+        // Respon error [cite: 63, 64]
         return response()->json([
-            'success' => false, [cite: 63]
-            'message' => 'Unauthorized' [cite: 64]
+            'success' => false,
+            'message' => 'Unauthorized'
         ], 401);
     }
 }
